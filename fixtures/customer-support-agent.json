@@ -1,0 +1,30 @@
+{
+  "agent_card_version": "0.1",
+  "agent": {
+    "id": "acme-support",
+    "name": "ACME Support Agent",
+    "version": "1.2.0",
+    "provider": "ACME Corp",
+    "description": "Front-line customer support agent for ACME billing and account questions."
+  },
+  "capabilities": {
+    "primary_purpose": "Answer customer questions about billing, refunds, and account status; escalate anything outside that scope.",
+    "models_used": [
+      { "name": "claude-sonnet-4-6", "provider": "anthropic", "role": "planner" },
+      { "name": "claude-haiku-4-5", "provider": "anthropic", "role": "executor" }
+    ],
+    "tools": [
+      { "name": "lookup_invoice", "description": "Read an invoice by id." },
+      { "name": "issue_refund", "description": "Issue a refund against a charge (requires human approval)." }
+    ],
+    "max_context_tokens": 200000,
+    "memory_persistence": "session",
+    "autonomy_level": "supervised"
+  },
+  "refusal_taxonomy": [
+    { "category": "out_of_scope", "description": "Anything not about billing/refunds/accounts." },
+    { "category": "credential_request", "description": "Requests to share or change account credentials." }
+  ],
+  "deployment": { "channel": "web-chat" },
+  "safety_posture": { "incident_response_uri": "https://acme.example/incidents" }
+}
